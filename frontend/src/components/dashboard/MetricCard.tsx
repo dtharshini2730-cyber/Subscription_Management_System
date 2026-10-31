@@ -27,26 +27,32 @@ export function MetricCard({
   badgeLabel,
   onClick,
 }: MetricCardProps) {
+  // Icon container themes — all use warm-tinted surfaces
   const iconThemes = {
     crimson: {
-      bg: 'bg-red-50 text-crimson border-crimson/20',
-      pill: 'bg-crimson/10 text-crimson',
+      bg: 'text-crimson',
+      iconBg: 'rgba(217,54,69,0.12)',
+      iconBorder: 'rgba(217,54,69,0.2)',
     },
     burgundy: {
-      bg: 'bg-burgundy/10 text-burgundy border-burgundy/20',
-      pill: 'bg-burgundy/10 text-burgundy',
+      bg: 'text-burgundy-light',
+      iconBg: 'rgba(84,20,21,0.12)',
+      iconBorder: 'rgba(84,20,21,0.2)',
     },
     espresso: {
-      bg: 'bg-espresso/10 text-espresso border-espresso/20',
-      pill: 'bg-espresso/10 text-espresso',
+      bg: 'text-espresso',
+      iconBg: 'rgba(53,44,41,0.10)',
+      iconBorder: 'rgba(53,44,41,0.15)',
     },
     stone: {
-      bg: 'bg-stone-grey/15 text-stone-grey-dark border-stone-grey/25',
-      pill: 'bg-stone-grey/15 text-stone-grey-dark',
+      bg: 'text-stone-grey-dark',
+      iconBg: 'rgba(157,150,149,0.12)',
+      iconBorder: 'rgba(157,150,149,0.2)',
     },
     emerald: {
-      bg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-      pill: 'bg-emerald-50 text-emerald-800',
+      bg: 'text-emerald-700',
+      iconBg: 'rgba(16,185,129,0.10)',
+      iconBorder: 'rgba(16,185,129,0.18)',
     },
   };
 
@@ -57,31 +63,44 @@ export function MetricCard({
       onClick={onClick}
       className={cn(
         'editorial-card rounded-xl p-5 relative overflow-hidden group',
-        onClick && 'cursor-pointer hover:border-crimson/40 hover:-translate-y-0.5'
+        onClick && 'cursor-pointer hover:-translate-y-0.5'
       )}
     >
+      {/* Subtle corner accent */}
+      <div
+        className="absolute top-0 right-0 w-24 h-24 rounded-bl-full opacity-[0.04] pointer-events-none"
+        style={{ background: accentColor === 'crimson' ? '#D93645' : accentColor === 'burgundy' ? '#541415' : '#352C29' }}
+      />
+
       {/* Top row: Title and Icon */}
       <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold text-stone-grey uppercase tracking-wider">
+        <div className="min-w-0">
+          <p className="text-[11px] font-bold text-stone-grey-dark uppercase tracking-[0.12em]">
             {title}
           </p>
-          <p className="text-2xl lg:text-3xl font-extrabold text-espresso mt-1.5 tracking-tight font-sans">
+          <p className="text-2xl lg:text-[2rem] font-extrabold text-espresso mt-2 tracking-tight font-sans leading-none">
             {value}
           </p>
         </div>
         <div
           className={cn(
-            'p-2.5 rounded-lg border transition-transform duration-200 group-hover:scale-105 shrink-0',
+            'p-2.5 rounded-xl border transition-transform duration-200 group-hover:scale-105 shrink-0',
             theme.bg
           )}
+          style={{
+            background: theme.iconBg,
+            border: `1px solid ${theme.iconBorder}`,
+          }}
         >
           <Icon className="w-5 h-5" />
         </div>
       </div>
 
       {/* Bottom row: Trend & Comparison */}
-      <div className="mt-4 pt-3 border-t border-blush/60 flex items-center justify-between text-xs">
+      <div
+        className="mt-4 pt-3 flex items-center justify-between text-xs gap-2 flex-wrap"
+        style={{ borderTop: '1px solid rgba(53,44,41,0.1)' }}
+      >
         <div className="flex items-center gap-2 flex-wrap">
           {change && (
             <span
@@ -89,8 +108,9 @@ export function MetricCard({
                 'inline-flex items-center font-bold px-2 py-0.5 rounded-full text-[11px]',
                 isPositive
                   ? 'text-emerald-800 bg-emerald-50 border border-emerald-200'
-                  : 'text-crimson bg-red-50 border border-crimson/20'
+                  : 'text-crimson border border-crimson/25'
               )}
+              style={!isPositive ? { background: 'rgba(217,54,69,0.09)' } : undefined}
             >
               {isPositive ? (
                 <ArrowUpRight className="w-3 h-3 mr-0.5" />
@@ -108,7 +128,10 @@ export function MetricCard({
         </div>
 
         {badgeLabel && (
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-grey px-1.5 py-0.5 rounded bg-ivory border border-blush">
+          <span
+            className="text-[10px] font-bold uppercase tracking-wider text-stone-grey px-1.5 py-0.5 rounded"
+            style={{ background: 'rgba(53,44,41,0.07)', border: '1px solid rgba(53,44,41,0.1)' }}
+          >
             {badgeLabel}
           </span>
         )}

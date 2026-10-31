@@ -69,7 +69,11 @@ export function PageHeader({
         <div className="relative">
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white border border-blush text-xs font-semibold text-espresso hover:border-espresso/40 shadow-xs transition-colors cursor-pointer"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold text-espresso hover:border-espresso/40 shadow-xs transition-all cursor-pointer"
+            style={{
+              background: '#EDE6DF',
+              border: '1px solid #DDD0C9',
+            }}
           >
             <Calendar className="w-4 h-4 text-crimson" />
             <span>{periodLabels[currentPeriod]}</span>
@@ -82,8 +86,18 @@ export function PageHeader({
                 className="fixed inset-0 z-30"
                 onClick={() => setDropdownOpen(false)}
               />
-              <div className="absolute right-0 mt-2 w-48 rounded-xl bg-white border border-blush shadow-lg py-1.5 z-40 animate-in fade-in zoom-in-95 duration-150">
-                <div className="px-3 py-1.5 text-[10px] font-bold text-stone-grey uppercase tracking-wider border-b border-blush/60">
+              <div
+                className="absolute right-0 mt-2 w-48 rounded-xl py-1.5 z-40 animate-in fade-in zoom-in-95 duration-150"
+                style={{
+                  background: '#EDE6DF',
+                  border: '1px solid #DDD0C9',
+                  boxShadow: '0 8px 24px rgba(53,44,41,0.14)',
+                }}
+              >
+                <div
+                  className="px-3 py-1.5 text-[10px] font-bold text-stone-grey uppercase tracking-wider"
+                  style={{ borderBottom: '1px solid rgba(53,44,41,0.08)' }}
+                >
                   Select Period
                 </div>
                 {options.map((opt) => (
@@ -96,9 +110,22 @@ export function PageHeader({
                     className={cn(
                       'w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-left transition-colors cursor-pointer',
                       currentPeriod === opt.id
-                        ? 'bg-blush-soft text-crimson font-bold'
-                        : 'text-espresso hover:bg-ivory'
+                        ? 'text-crimson font-bold'
+                        : 'text-espresso'
                     )}
+                    style={
+                      currentPeriod === opt.id
+                        ? { background: 'rgba(217,54,69,0.08)' }
+                        : undefined
+                    }
+                    onMouseEnter={(e) => {
+                      if (currentPeriod !== opt.id)
+                        e.currentTarget.style.background = 'rgba(53,44,41,0.06)';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (currentPeriod !== opt.id)
+                        e.currentTarget.style.background = 'transparent';
+                    }}
                   >
                     <span>{opt.label}</span>
                     {currentPeriod === opt.id && (

@@ -1,25 +1,38 @@
 @import "tailwindcss";
 
 @theme {
+  /* ─── SUBSENSE Brand Palette ─────────────────────── */
   --color-espresso: #352C29;
   --color-espresso-dark: #27201E;
   --color-espresso-deep: #1A1513;
   --color-espresso-surface: #2E2522;
+  --color-espresso-light: #4A3F3B;
+
   --color-stone-grey: #9D9695;
-  --color-stone-grey-light: #D4D0CE;
+  --color-stone-grey-light: #C8C3C1;
   --color-stone-grey-dark: #6E6867;
+
   --color-burgundy: #541415;
   --color-burgundy-light: #721C1E;
   --color-burgundy-dark: #3B0D0E;
+
   --color-crimson: #D93645;
   --color-crimson-bright: #F04555;
   --color-crimson-hover: #C22D3B;
+
   --color-blush: #E8DAD5;
-  --color-blush-soft: #F4ECE9;
-  --color-blush-border: #DFD2CD;
+  --color-blush-soft: #F0E6E0;
+  --color-blush-border: #DDD0C9;
+
   --color-ivory: #F5F1ED;
   --color-ivory-dark: #ECE5DE;
   --color-ivory-surface: #FAF7F5;
+
+  /* ─── Warm Card Surfaces ─────────────────────────── */
+  --color-card: #EDE6DF;
+  --color-card-hover: #E8E0D8;
+  --color-panel: #E8DAD5;
+  --color-surface: #EEE7E1;
 }
 
 :root {
@@ -29,9 +42,11 @@
   --sidebar-surface: #352C29;
   --sidebar-text: #F5F1ED;
   --sidebar-muted: #9D9695;
-  --sidebar-border: rgba(232, 218, 213, 0.12);
-  --card-bg: #FFFFFF;
-  --card-border: #E8DAD5;
+  --sidebar-border: rgba(232, 218, 213, 0.10);
+  /* Cards: warm tinted, never pure white */
+  --card-bg: #EDE6DF;
+  --card-border: #DDD0C9;
+  --navbar-bg: #2E2522;
   --crimson-primary: #D93645;
   --burgundy-accent: #541415;
 }
@@ -48,13 +63,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom editorial scrollbars */
+/* ─── Custom editorial scrollbars ──────────────────── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #ECE5DE;
+  background: #E8DAD5;
 }
 ::-webkit-scrollbar-thumb {
   background: #9D9695;
@@ -69,30 +84,62 @@ body {
   background: #1A1513;
 }
 .sidebar-scroll::-webkit-scrollbar-thumb {
-  background: #352C29;
+  background: #4A3F3B;
 }
 .sidebar-scroll::-webkit-scrollbar-thumb:hover {
   background: #D93645;
 }
 
-/* Soft luxury cards */
+/* ─── Premium warm card system ──────────────────────
+   Replace ALL white cards with warm tinted surface.
+   ─────────────────────────────────────────────────── */
 .editorial-card {
-  background: #FFFFFF;
-  border: 1px solid #E8DAD5;
-  box-shadow: 0 1px 3px rgba(53, 44, 41, 0.04), 0 4px 12px rgba(53, 44, 41, 0.02);
+  background: #EDE6DF;
+  border: 1px solid #DDD0C9;
+  box-shadow:
+    0 1px 2px rgba(53, 44, 41, 0.05),
+    0 4px 16px rgba(53, 44, 41, 0.04);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .editorial-card:hover {
-  border-color: #DFD2CD;
-  box-shadow: 0 4px 16px rgba(53, 44, 41, 0.06);
+  border-color: #C8BAAF;
+  box-shadow:
+    0 2px 8px rgba(53, 44, 41, 0.07),
+    0 8px 24px rgba(53, 44, 41, 0.05);
 }
 
-/* Subtle Crimson glow */
+/* Dark variant for analytics/chart panels */
+.editorial-card-dark {
+  background: #2E2522;
+  border: 1px solid rgba(232, 218, 213, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Secondary muted panel */
+.muted-panel {
+  background: #E8DAD5;
+  border: 1px solid #D4C8C2;
+}
+
+/* ─── Glow effects ──────────────────────────────────── */
 .crimson-glow {
-  box-shadow: 0 4px 14px rgba(217, 54, 69, 0.25);
+  box-shadow: 0 4px 14px rgba(217, 54, 69, 0.28);
 }
 
 .burgundy-glow {
-  box-shadow: 0 4px 14px rgba(84, 20, 21, 0.2);
+  box-shadow: 0 4px 14px rgba(84, 20, 21, 0.22);
+}
+
+/* ─── Dropdown / Modal surface override ─────────────── */
+.warm-dropdown {
+  background: #EDE6DF;
+  border: 1px solid #DDD0C9;
+  box-shadow: 0 8px 32px rgba(53, 44, 41, 0.14);
+}
+
+/* ─── Table row hover ──────────────────────────────── */
+.table-row-hover:hover {
+  background: #E8E0D8;
 }
