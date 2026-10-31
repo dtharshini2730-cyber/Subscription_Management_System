@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     API_V1_STR: str = "/api/v1"
 
-    SECRET_KEY: str
+    SECRET_KEY: str = "dev-secret-key-for-subsense-local-development"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 hours
 
@@ -21,7 +21,7 @@ class Settings(BaseSettings):
 
     # Default Seed
     ADMIN_DEFAULT_EMAIL: str = "admin@subsense.io"
-    ADMIN_DEFAULT_PASSWORD: str
+    ADMIN_DEFAULT_PASSWORD: str = "Admin@Subsense123"
     ADMIN_DEFAULT_NAME: str = "System Administrator"
 
     model_config = SettingsConfigDict(
