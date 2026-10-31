@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  --color-espresso: #352C29;
+  --color-espresso-dark: #27201E;
+  --color-espresso-deep: #1A1513;
+  --color-espresso-surface: #2E2522;
+  --color-stone-grey: #9D9695;
+  --color-stone-grey-light: #D4D0CE;
+  --color-stone-grey-dark: #6E6867;
+  --color-burgundy: #541415;
+  --color-burgundy-light: #721C1E;
+  --color-burgundy-dark: #3B0D0E;
+  --color-crimson: #D93645;
+  --color-crimson-bright: #F04555;
+  --color-crimson-hover: #C22D3B;
+  --color-blush: #E8DAD5;
+  --color-blush-soft: #F4ECE9;
+  --color-blush-border: #DFD2CD;
+  --color-ivory: #F5F1ED;
+  --color-ivory-dark: #ECE5DE;
+  --color-ivory-surface: #FAF7F5;
+}
+
+:root {
+  --background: #F5F1ED;
+  --foreground: #352C29;
+  --sidebar-bg: #27201E;
+  --sidebar-surface: #352C29;
+  --sidebar-text: #F5F1ED;
+  --sidebar-muted: #9D9695;
+  --sidebar-border: rgba(232, 218, 213, 0.12);
+  --card-bg: #FFFFFF;
+  --card-border: #E8DAD5;
+  --crimson-primary: #D93645;
+  --burgundy-accent: #541415;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #F5F1ED;
+  color: #352C29;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom editorial scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #ECE5DE;
+}
+::-webkit-scrollbar-thumb {
+  background: #9D9695;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #352C29;
+}
+
+/* Sidebar scrollbar */
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: #1A1513;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: #352C29;
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: #D93645;
+}
+
+/* Soft luxury cards */
+.editorial-card {
+  background: #FFFFFF;
+  border: 1px solid #E8DAD5;
+  box-shadow: 0 1px 3px rgba(53, 44, 41, 0.04), 0 4px 12px rgba(53, 44, 41, 0.02);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editorial-card:hover {
+  border-color: #DFD2CD;
+  box-shadow: 0 4px 16px rgba(53, 44, 41, 0.06);
+}
+
+/* Subtle Crimson glow */
+.crimson-glow {
+  box-shadow: 0 4px 14px rgba(217, 54, 69, 0.25);
+}
+
+.burgundy-glow {
+  box-shadow: 0 4px 14px rgba(84, 20, 21, 0.2);
+}

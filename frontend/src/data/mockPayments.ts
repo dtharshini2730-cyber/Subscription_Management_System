@@ -1,0 +1,36 @@
+import { Payment } from '@/types';
+
+export const mockPayments: Payment[] = [
+  {
+    id: 'pay-01',
+    paymentNumber: 'PAY-2026-0401',
+    invoiceId: 'inv-01',
+    invoiceNumber: 'INV-2026-0801',
+    customerId: 'cust-01',
+    customerName: 'Apex Logistics Inc.',
+    amount: 22862.4,
+    paymentMethod: 'ACH',
+    paymentDate: '2026-09-14',
+    status: 'COMPLETED',
+    referenceNumber: 'ACH-TRACE-998124',
+    note: 'September auto-debit batch settlement.',
+    recordedByUserName: 'Alex Morgan',
+    createdAt: '2026-09-14T11:20:00Z',
+  },
+  {
+    id: 'pay-02',
+    paymentNumber: 'PAY-2026-0389',
+    invoiceId: 'inv-old-01',
+    invoiceNumber: 'INV-2026-0750',
+    customerId: 'cust-03',
+    customerName: 'FinFlow Technologies Ltd',
+    amount: 31020.0,
+    paymentMethod: 'BANK_TRANSFER',
+    paymentDate: '2026-01-15',
+    status: 'COMPLETED',
+    referenceNumber: 'SWIFT-GB-881293',
+    note: 'Annual upfront contract wire transfer.',
+    recordedByUserName: 'Sarah Jenkins',
+    createdAt: '2026-01-15T15:45:00Z',
+  },
+];

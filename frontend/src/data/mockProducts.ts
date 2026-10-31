@@ -1,0 +1,63 @@
+import { Product } from '@/types';
+
+export const mockProducts: Product[] = [
+  {
+    id: 'prod-01',
+    name: 'Brightloop Enterprise ERP',
+    sku: 'BL-ERP-100',
+    type: 'SOFTWARE',
+    salesPrice: 1200.0,
+    costPrice: 450.0,
+    description: 'Core subscription management, accounting automation, and operations engine.',
+    notes: 'Primary enterprise software subscription.',
+    isActive: true,
+    variants: [
+      {
+        id: 'var-01-std',
+        productId: 'prod-01',
+        name: 'Standard Edition',
+        attributeName: 'Brand',
+        attributeValue: 'Standard',
+        additionalPrice: 0,
+        sku: 'BL-ERP-STD',
+        isDefault: true,
+      },
+      {
+        id: 'var-01-odoo',
+        productId: 'prod-01',
+        name: 'Odoo Ecosystem Connector',
+        attributeName: 'Brand',
+        attributeValue: 'Odoo',
+        additionalPrice: 560.0, // Per case study: adds 560 to price
+        sku: 'BL-ERP-ODOO-560',
+      },
+    ],
+    createdAt: '2026-01-10T00:00:00Z',
+  },
+  {
+    id: 'prod-02',
+    name: 'Real-Time Revenue Analytics Add-on',
+    sku: 'BL-ANL-200',
+    type: 'ADD_ON',
+    salesPrice: 350.0,
+    costPrice: 80.0,
+    description: 'Deep cohort analysis, churn modeling, and automated board deck generator.',
+    notes: 'Compatible with all active ERP instances.',
+    isActive: true,
+    variants: [],
+    createdAt: '2026-02-15T00:00:00Z',
+  },
+  {
+    id: 'prod-03',
+    name: '24/7 Priority SLA Support',
+    sku: 'BL-SUP-300',
+    type: 'SERVICE',
+    salesPrice: 490.0,
+    costPrice: 150.0,
+    description: 'Guaranteed 15-minute response SLA with dedicated technical account manager.',
+    notes: 'Renewable monthly or annually.',
+    isActive: true,
+    variants: [],
+    createdAt: '2026-02-20T00:00:00Z',
+  },
+];
