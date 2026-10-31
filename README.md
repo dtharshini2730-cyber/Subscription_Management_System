@@ -353,6 +353,17 @@ SUBSENSE/
 │   ├── tsconfig.json                     # Strict TypeScript compiler options
 │   └── next.config.ts                    # Next.js build and routing settings
 │
+├── backend/                              # Python FastAPI REST API service
+│   ├── app/                              # Application modules
+│   │   ├── core/                         # Security, JWT, config & CORS settings
+│   │   ├── db/                           # SQLAlchemy engine & session dependency
+│   │   ├── models/                       # Relational database models (Users, Subscriptions)
+│   │   ├── routers/                      # API route handlers (Auth, Billing, Customers)
+│   │   ├── schemas/                      # Pydantic v2 validation models
+│   │   ├── services/                     # Business logic & billing automation
+│   │   └── utils/                        # Password hashing & helper functions
+│   └── requirements.txt                  # Python dependencies (FastAPI, SQLAlchemy, etc.)
+│
 ├── .gitignore                            # Comprehensive ignore list (node_modules, .next, etc.)
 └── README.md                             # SUBSENSE official documentation homepage
 ```
@@ -409,7 +420,7 @@ Phase 1: Foundation & Design System                  [ ████████�
 Phase 2: Core Management Modules & Premium Theme     [ ████████████████████ ]  100% (Complete)
 Phase 3: Automated Recurring Billing Engine (docs/)  [ ████████████░░░░░░░░ ]   60% (In Progress)
 Phase 4: Revenue Intelligence Suite & AI Assistant   [ ██████████░░░░░░░░░░ ]   50% (In Progress)
-Phase 5: FastAPI Backend & PostgreSQL Integration    [ ████░░░░░░░░░░░░░░░░ ]   20% (Planned)
+Phase 5: FastAPI Backend & PostgreSQL Integration    [ █████████████░░░░░░░ ]   65% (In Progress — Scaffolding Merged)
 Phase 6: End-to-End Test Suite & Cloud Deployment    [ ░░░░░░░░░░░░░░░░░░░░ ]    0% (Planned)
 ```
 
