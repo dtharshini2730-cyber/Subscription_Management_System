@@ -1,6 +1,6 @@
 # SUBSENSE REST API Contracts Specification
 
-This document establishes the RESTful API endpoints for integration between the Next.js frontend and the future FastAPI backend.
+This document is the target REST API contract specification. An endpoint listed here is not necessarily implemented. The current FastAPI application exposes the authentication routes implemented in `backend/app/routers/auth.py`; domain CRUD endpoints below remain pending until backend routers are added.
 
 ---
 

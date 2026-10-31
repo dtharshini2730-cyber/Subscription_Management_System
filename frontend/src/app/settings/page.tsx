@@ -1,17 +1,47 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { DashboardShell } from '@/components/layout/DashboardShell';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { validatePasswordPolicy } from '@/lib/validation';
 import { Lock, Users, CheckCircle2, XCircle, Building2 } from 'lucide-react';
+import { ApiError, authApi } from '@/lib/api';
 
 export default function SettingsPage() {
   const { canCreateStaffAccounts } = useAuth();
   const [passwordInput, setPasswordInput] = useState('Brightloop@2026');
+  const [staffFormOpen, setStaffFormOpen] = useState(false);
+  const [staffName, setStaffName] = useState('');
+  const [staffEmail, setStaffEmail] = useState('');
+  const [staffPassword, setStaffPassword] = useState('');
+  const [isCreatingStaff, setIsCreatingStaff] = useState(false);
+  const [staffError, setStaffError] = useState<string | null>(null);
+  const [staffSuccess, setStaffSuccess] = useState<string | null>(null);
   const policyCheck = validatePasswordPolicy(passwordInput);
+
+  async function handleCreateStaff(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStaffError(null);
+    setStaffSuccess(null);
+    setIsCreatingStaff(true);
+
+    try {
+      await authApi.registerStaff(staffName, staffEmail, staffPassword);
+      setStaffSuccess(`Staff account created for ${staffEmail}.`);
+      setStaffName('');
+      setStaffEmail('');
+      setStaffPassword('');
+      setStaffFormOpen(false);
+    } catch (error) {
+      setStaffError(
+        error instanceof ApiError ? error.message : 'Unable to create the staff account.',
+      );
+    } finally {
+      setIsCreatingStaff(false);
+    }
+  }
 
   return (
     <DashboardShell>
@@ -153,15 +183,67 @@ export default function SettingsPage() {
             Only administrators can add internal staff members and assign permission sets.
           </p>
 
+          {staffSuccess && (
+            <p className="text-sm text-emerald-700" role="status">{staffSuccess}</p>
+          )}
+          {staffError && (
+            <p className="text-sm text-crimson" role="alert">{staffError}</p>
+          )}
           <Button
             variant="outline"
             size="sm"
             disabled={!canCreateStaffAccounts}
-            onClick={() => alert('Invite staff member wizard ready!')}
+            onClick={() => {
+              setStaffError(null);
+              setStaffSuccess(null);
+              setStaffFormOpen(!staffFormOpen);
+            }}
             className="text-xs"
           >
-            Invite Staff Member
+            {staffFormOpen ? 'Cancel' : 'Create Staff Account'}
           </Button>
+          {staffFormOpen && canCreateStaffAccounts && (
+            <form onSubmit={handleCreateStaff} className="max-w-lg space-y-3 rounded-lg border border-blush bg-ivory p-4">
+              <label className="block text-xs font-semibold text-espresso">
+                Staff name
+                <input
+                  required
+                  autoComplete="name"
+                  value={staffName}
+                  onChange={(event) => setStaffName(event.target.value)}
+                  className="mt-1 w-full rounded-lg border border-blush bg-white px-3 py-2 font-normal"
+                />
+              </label>
+              <label className="block text-xs font-semibold text-espresso">
+                Staff email
+                <input
+                  required
+                  type="email"
+                  autoComplete="email"
+                  value={staffEmail}
+                  onChange={(event) => setStaffEmail(event.target.value)}
+                  className="mt-1 w-full rounded-lg border border-blush bg-white px-3 py-2 font-normal"
+                />
+              </label>
+              <label className="block text-xs font-semibold text-espresso">
+                Temporary password
+                <input
+                  required
+                  type="password"
+                  autoComplete="new-password"
+                  value={staffPassword}
+                  onChange={(event) => setStaffPassword(event.target.value)}
+                  className="mt-1 w-full rounded-lg border border-blush bg-white px-3 py-2 font-normal"
+                />
+              </label>
+              <p className="text-xs text-stone-grey">
+                The backend enforces password complexity and administrator permissions.
+              </p>
+              <Button type="submit" size="sm" isLoading={isCreatingStaff} className="text-xs">
+                Create account
+              </Button>
+            </form>
+          )}
         </div>
       </div>
     </DashboardShell>

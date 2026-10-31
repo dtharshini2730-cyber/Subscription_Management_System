@@ -1,13 +1,26 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { authApi, authSessionExpiredEvent, clearAccessToken, getAccessToken, setAccessToken } from '@/lib/api';
+import { ApiError } from '@/lib/api';
 import { User, UserRole } from '@/types';
-import { mockUsers } from '@/data';
 
 interface AuthContextType {
-  currentUser: User;
-  currentRole: UserRole;
-  switchRole: (role: UserRole) => void;
+  currentUser: User | null;
+  currentRole: UserRole | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  authError: string | null;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
+  retrySession: () => Promise<void>;
   isAdmin: boolean;
   isStaff: boolean;
   isCustomer: boolean;
@@ -19,41 +32,103 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+function getErrorMessage(error: unknown): string {
+  if (error instanceof ApiError) return error.message;
+  return 'An unexpected authentication error occurred.';
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<User>(mockUsers[0]); // Defaults to Admin Sarah Jenkins
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [authError, setAuthError] = useState<string | null>(null);
 
-  const switchRole = (role: UserRole) => {
-    const matched = mockUsers.find((u) => u.role === role) || mockUsers[0];
-    setCurrentUser(matched);
-  };
+  const restoreSession = useCallback(async () => {
+    const token = getAccessToken();
+    if (!token) {
+      setCurrentUser(null);
+      setAuthError(null);
+      setIsLoading(false);
+      return;
+    }
 
-  const isAdmin = currentUser.role === 'ADMIN';
-  const isStaff = currentUser.role === 'STAFF';
-  const isCustomer = currentUser.role === 'CUSTOMER';
+    setIsLoading(true);
+    setAuthError(null);
+    try {
+      setCurrentUser(await authApi.currentUser());
+    } catch (error) {
+      setCurrentUser(null);
+      if (error instanceof ApiError && error.status !== 401) {
+        setAuthError(getErrorMessage(error));
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
-  const canConfigureDiscountsAndTaxes = isAdmin;
-  const canCreateStaffAccounts = isAdmin;
-  const canManageQuotations = isAdmin || isStaff;
-  const canTriggerBillingRun = isAdmin || isStaff;
+  useEffect(() => {
+    void restoreSession();
+  }, [restoreSession]);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        currentUser,
-        currentRole: currentUser.role,
-        switchRole,
-        isAdmin,
-        isStaff,
-        isCustomer,
-        canConfigureDiscountsAndTaxes,
-        canCreateStaffAccounts,
-        canManageQuotations,
-        canTriggerBillingRun,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  useEffect(() => {
+    const handleExpiredSession = () => {
+      setCurrentUser(null);
+      setAuthError('Your session expired. Please sign in again.');
+    };
+    window.addEventListener(authSessionExpiredEvent, handleExpiredSession);
+    return () => window.removeEventListener(authSessionExpiredEvent, handleExpiredSession);
+  }, []);
+
+  const login = useCallback(async (email: string, password: string) => {
+    const session = await authApi.login(email, password);
+    setAccessToken(session.token);
+    setCurrentUser(session.user);
+    setAuthError(null);
+  }, []);
+
+  const logout = useCallback(() => {
+    clearAccessToken();
+    setCurrentUser(null);
+    setAuthError(null);
+  }, []);
+
+  const currentRole = currentUser?.role ?? null;
+  const isAdmin = currentRole === 'ADMIN';
+  const isStaff = currentRole === 'STAFF';
+  const isCustomer = currentRole === 'CUSTOMER';
+
+  const value = useMemo<AuthContextType>(
+    () => ({
+      currentUser,
+      currentRole,
+      isAuthenticated: currentUser !== null,
+      isLoading,
+      authError,
+      login,
+      logout,
+      retrySession: restoreSession,
+      isAdmin,
+      isStaff,
+      isCustomer,
+      canConfigureDiscountsAndTaxes: isAdmin,
+      canCreateStaffAccounts: isAdmin,
+      canManageQuotations: isAdmin || isStaff,
+      canTriggerBillingRun: isAdmin || isStaff,
+    }),
+    [
+      authError,
+      currentRole,
+      currentUser,
+      isAdmin,
+      isCustomer,
+      isLoading,
+      isStaff,
+      login,
+      logout,
+      restoreSession,
+    ],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

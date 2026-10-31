@@ -132,14 +132,14 @@ export function Navbar({
             className="flex items-center gap-2 pl-2 border-l border-blush hover:opacity-80 transition-opacity cursor-pointer"
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-burgundy to-crimson text-white flex items-center justify-center font-bold text-xs shadow-xs">
-              {currentUser.name.charAt(0)}
+              {currentUser?.name.charAt(0) ?? '?'}
             </div>
             <div className="hidden lg:block text-left text-xs">
               <p className="font-semibold text-espresso leading-tight">
-                {currentUser.name}
+                {currentUser?.name}
               </p>
               <p className="text-[10px] text-stone-grey font-mono">
-                {currentUser.companyName || 'Brightloop'}
+                {currentUser?.companyName || 'SUBSENSE'}
               </p>
             </div>
           </button>

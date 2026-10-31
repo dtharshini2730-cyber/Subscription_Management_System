@@ -2,15 +2,13 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { UserRole } from '@/types';
 import {
   Settings,
   Lock,
   LogOut,
-  UserCheck,
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 interface ProfileDropdownProps {
   isOpen: boolean;
@@ -18,9 +16,10 @@ interface ProfileDropdownProps {
 }
 
 export function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProps) {
-  const { currentUser, currentRole, switchRole } = useAuth();
+  const router = useRouter();
+  const { currentUser, currentRole, logout } = useAuth();
 
-  if (!isOpen) return null;
+  if (!isOpen || !currentUser) return null;
 
   return (
     <>
@@ -48,33 +47,6 @@ export function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProps) {
           </div>
         </div>
 
-        {/* Persona Quick Switcher */}
-        <div className="p-3 border-b border-blush/60 bg-ivory/50">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-stone-grey mb-2 flex items-center gap-1">
-            <UserCheck className="w-3.5 h-3.5 text-crimson" />
-            <span>Switch Active Persona</span>
-          </p>
-          <div className="grid grid-cols-3 gap-1 p-1 bg-white rounded-lg border border-blush text-[10px] text-center font-medium">
-            {(['ADMIN', 'STAFF', 'CUSTOMER'] as UserRole[]).map((role) => (
-              <button
-                key={role}
-                onClick={() => {
-                  switchRole(role);
-                  onClose();
-                }}
-                className={cn(
-                  'py-1 rounded cursor-pointer transition-colors capitalize font-semibold',
-                  currentRole === role
-                    ? 'bg-crimson text-white shadow-xs'
-                    : 'text-stone-grey hover:text-espresso'
-                )}
-              >
-                {role.toLowerCase()}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Navigation links */}
         <div className="p-1 text-xs">
           <Link
@@ -95,8 +67,9 @@ export function ProfileDropdown({ isOpen, onClose }: ProfileDropdownProps) {
           </Link>
           <button
             onClick={() => {
-              alert('Sign out simulated in Phase 2 demo!');
+              logout();
               onClose();
+              router.replace('/login');
             }}
             className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-crimson hover:bg-red-50 transition-colors text-left cursor-pointer"
           >

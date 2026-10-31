@@ -21,7 +21,6 @@ import {
   AlertTriangle,
   Settings,
   X,
-  UserCheck,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserRole } from '@/types';
@@ -48,7 +47,7 @@ interface SidebarProps {
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
-  const { currentUser, currentRole, switchRole } = useAuth();
+  const { currentUser, currentRole } = useAuth();
 
   const sections: NavSection[] = [
     {
@@ -128,7 +127,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         <div className="flex-1 overflow-y-auto px-3 py-4 space-y-6 sidebar-scroll">
           {sections.map((section, sIdx) => {
             const visibleItems = section.items.filter(
-              (item) => !item.roles || item.roles.includes(currentRole)
+              (item) => !item.roles || (currentRole !== null && item.roles.includes(currentRole))
             );
 
             if (visibleItems.length === 0) return null;
@@ -187,35 +186,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           })}
         </div>
 
-        {/* Persona Quick Switcher (Footer) */}
+        {currentUser && (
         <div className="p-3 m-3 rounded-xl bg-[#1D1715] border border-white/5">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[9.5px] font-bold uppercase tracking-wider text-[#9D9695]">
-              Active Persona
-            </span>
-            <span className="flex items-center gap-1 text-[10px] text-[#D93645] font-semibold">
-              <UserCheck className="w-3 h-3" />
-              Switch
-            </span>
-          </div>
-
-          <div className="grid grid-cols-3 gap-1 p-1 bg-black/40 rounded-lg text-[10px] text-center font-medium">
-            {(['ADMIN', 'STAFF', 'CUSTOMER'] as UserRole[]).map((role) => (
-              <button
-                key={role}
-                onClick={() => switchRole(role)}
-                className={cn(
-                  'py-1 rounded cursor-pointer transition-colors capitalize text-[10.5px]',
-                  currentRole === role
-                    ? 'bg-[#D93645] text-white font-bold shadow-xs'
-                    : 'text-[#9D9695] hover:text-white'
-                )}
-              >
-                {role.toLowerCase()}
-              </button>
-            ))}
-          </div>
-
           <div className="mt-2.5 pt-2 border-t border-white/5 flex items-center gap-2">
             <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#541415] to-[#D93645] flex items-center justify-center text-xs font-bold text-white shrink-0">
               {currentUser.name.charAt(0)}
@@ -226,6 +198,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
           </div>
         </div>
+        )}
       </aside>
     </>
   );

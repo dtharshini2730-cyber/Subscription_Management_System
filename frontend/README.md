@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Frontend and backend integration
+
+Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_API_BASE_URL` to the FastAPI API root (default: `http://localhost:8000/api/v1`). Start the backend from `../backend` using `uvicorn app.main:app --reload --port 8000`, then start the frontend as described below.
+
+Login, Customer registration, and session restoration use the implemented backend authentication routes. Business module pages still use their existing demo data until the corresponding backend CRUD endpoints are implemented. See [the integration status and setup guide](../docs/frontend-backend-integration.md).
+
 ## Getting Started
 
 First, run the development server:

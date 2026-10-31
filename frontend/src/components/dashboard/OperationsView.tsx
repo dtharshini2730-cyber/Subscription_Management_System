@@ -78,7 +78,7 @@ export function OperationsView() {
             </Badge>
           </div>
           <p className="text-xs text-stone-grey mt-1">
-            Active Persona: <strong className="text-white">{currentUser.name}</strong> ({currentRole}) • Brightloop Software
+            Signed in as: <strong className="text-white">{currentUser?.name ?? 'Unknown user'}</strong> ({currentRole ?? 'Unknown role'})
           </p>
         </div>
 

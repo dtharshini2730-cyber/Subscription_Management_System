@@ -54,7 +54,7 @@ export function PageHeader({
     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-blush">
       <div>
         <p className="text-xs font-semibold uppercase tracking-wider text-crimson mb-1">
-          {getGreeting()}, {currentUser.name.split(' ')[0]}
+          {getGreeting()}, {currentUser?.name.split(' ')[0] ?? 'there'}
         </p>
         <h1 className="text-2xl md:text-3xl font-extrabold text-espresso tracking-tight">
           {title}

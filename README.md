@@ -21,7 +21,7 @@ SUBSENSE/
 │       ├── hooks/            # Custom reusable hooks
 │       ├── lib/              # Billing calculators, formatters, RBAC guards
 │       └── types/            # TypeScript entity models and status unions
-└── backend/                  # (Future Phase) Python FastAPI, PostgreSQL, SQLAlchemy
+└── backend/                  # Python FastAPI authentication API, SQLAlchemy models
 ```
 
 ---
@@ -64,3 +64,7 @@ npm run dev
 ```
 
 Visit [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Backend Integration
+
+The login, registration, and session-validation flows use the FastAPI authentication API. Other business modules remain on demo data until their backend endpoints are implemented. See the [frontend/backend integration guide](./docs/frontend-backend-integration.md) for setup and current integration status.
