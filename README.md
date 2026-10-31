@@ -110,12 +110,22 @@ SUBSENSE separates subscription operations into three tightly integrated functio
 | **Tax Configuration** | Multi-jurisdiction tax rate rules with support for compound calculation and regional exemptions. | ✅ Implemented |
 | **Discount Rule Engine** | Percentage and fixed deductions with date ranges, minimum quantity floors, and usage limits. | ✅ Implemented |
 
-### 4.3 Revenue Intelligence Layer
+### 4.3 Smart Renewal Management
+
+| Feature Module | Business Impact | Status |
+| :--- | :--- | :---: |
+| **Upcoming Renewal Tracking** | Surfaces subscriptions approaching expiry so teams can act before churn risk rises. | ✅ Implemented |
+| **Next Billing & Renewal Date Engine** | Calculates contract renewals and next billing windows using plan frequency logic. | ✅ Implemented |
+| **Configurable Reminder Schedule** | Generates 7, 3, and 1-day warnings before renewals to prevent missed action windows. | ✅ Implemented |
+| **Renewal History Ledger** | Maintains an auditable sequence of previous renewals and duplicate-prevention checks. | ✅ Implemented |
+| **Renewal API Layer** | Exposes endpoints for frontend integrations and operational automation. | ✅ Implemented |
+
+### 4.4 Revenue Intelligence Layer
 
 | Feature Module | Business Impact | Status |
 | :--- | :--- | :---: |
 | **AI Finance Assistant** | Contextual natural-language interface for instant financial queries and scenario simulations. | 🚧 In Progress (Interactive UI Active) |
-| **Smart Renewal Risk Detection** | Heuristic radar scoring accounts based on tenure, past payment speed, and engagement health. | ✅ Implemented |
+| **Smart Renewal Risk Detection** | Heuristic radar scoring accounts based on tenure, past payment speed, and engagement health. | ✅ Implementedd |
 | **Invoice Anomaly Detection** | Rule-based engine identifying statistical outliers, mismatched discounts, and erratic billing values. | ✅ Implemented |
 | **Subscription Health Score** | Normalized 0–100 health composite rating customer risk and expansion readiness. | ✅ Implemented |
 | **Automated Payment Notices** | Schedule-aware dunning reminders to preempt payment defaults and involuntary churn. | 📋 Planned |
@@ -281,7 +291,7 @@ Open your browser and navigate to **`http://localhost:3000`**.
 | `npm run start` | `next start` | Runs the compiled production build locally |
 | `npm run lint` | `eslint` | Runs ESLint 9 code quality and convention checks |
 
-### Backend Setup (Future Phase — Specification in `docs/`)
+### Backend Setup (FastAPI + Renewal Engine Active)
 
 ```powershell
 # Navigate to backend directory
@@ -294,12 +304,11 @@ python -m venv venv
 # Install backend dependencies
 pip install -r requirements.txt
 
-# Run database migrations
-alembic upgrade head
-
 # Start FastAPI development server
 uvicorn app.main:app --reload --port 8000
 ```
+
+The backend now includes a working subscription renewal management module with reminder scheduling, duplicate prevention, and renewal history tracking.
 
 ---
 

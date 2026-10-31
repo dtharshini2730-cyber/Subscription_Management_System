@@ -36,6 +36,8 @@ class Subscription(Base):
     quotation = relationship("Quotation")
     lines = relationship("SubscriptionLine", back_populates="subscription", cascade="all, delete-orphan")
     invoices = relationship("Invoice", back_populates="subscription")
+    renewal_reminders = relationship("SubscriptionRenewalReminder", back_populates="subscription", cascade="all, delete-orphan")
+    renewal_history = relationship("SubscriptionRenewalHistory", back_populates="subscription", cascade="all, delete-orphan")
 
 
 class SubscriptionLine(Base):
